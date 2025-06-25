@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FindeMes2 - Predictor ML</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 600px; 
+            margin: 50px auto; 
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 { 
+            color: #333; 
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        form { 
+            margin-bottom: 20px; 
+        }
+        label { 
+            display: block; 
+            margin: 10px 0 5px; 
+            font-weight: bold;
+        }
+        input[type="number"] { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button { 
+            background-color: #007bff; 
+            color: white; 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 15px;
+        }
+        button:hover { 
+            background-color: #0056b3; 
+        }
+        #resultado { 
+            margin-top: 20px; 
+            padding: 15px; 
+            border-radius: 5px;
+            display: none;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 FindeMes2 - Predictor ML</h1>
+        
+        <form id="predictor-form" onsubmit="realizarPrediccion(event)">
+            <label for="feature1">Característica 1:</label>
+            <input type="number" id="feature1" name="feature1" step="0.01" required>
+            
+            <label for="feature2">Característica 2:</label>
+            <input type="number" id="feature2" name="feature2" step="0.01" required>
+            
+            <button type="submit">Realizar Predicción</button>
+        </form>
+        
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function realizarPrediccion(event) {
+            event.preventDefault();
+            
+            const formData = new FormData(document.getElementById('predictor-form'));
+            const resultadoDiv = document.getElementById('resultado');
+            
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    resultadoDiv.innerHTML = 'Error: ' + data.error;
+                    resultadoDiv.className = 'error';
+                } else {
+                    resultadoDiv.innerHTML = data.prediction;
+                    resultadoDiv.className = 'success';
+                }
+                resultadoDiv.style.display = 'block';
+            })
+            .catch(error => {
+                resultadoDiv.innerHTML = 'Error en la solicitud: ' + error;
+                resultadoDiv.className = 'error';
+                resultadoDiv.style.display = 'block';
+            });
+        }
+    </script>
+</body>
+</html>
