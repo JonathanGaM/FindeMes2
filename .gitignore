@@ -1,0 +1,26 @@
+# Ignore virtual environment
+myenv/
+venv/
+env/
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore MacOS specific file
+.DS_Store
+
+# Ignore environment variables files
+.env
+.venv
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore model files (opcional si son muy grandes)
+# *.pkl
+# *.joblib
